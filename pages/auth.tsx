@@ -1,12 +1,13 @@
 import axios from 'axios';
 
 import Input from '@/components/inputs/Input';
-import { signIn } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { NextPageContext } from 'next';
 
 interface ICredentials {
   email: string;
@@ -151,5 +152,22 @@ const Auth = () => {
     </div>
   );
 };
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+}
 
 export default Auth;
