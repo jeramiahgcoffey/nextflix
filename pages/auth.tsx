@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import Input from '@/components/inputs/Input';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 interface ICredentials {
@@ -16,8 +18,9 @@ const initialCredentialsState: ICredentials = {
 };
 
 const Auth = () => {
-  const [variant, setVariant] = useState('login');
+  const router = useRouter();
 
+  const [variant, setVariant] = useState('login');
   const [credentials, setCredentials] = useState<ICredentials>(
     initialCredentialsState
   );
@@ -26,6 +29,7 @@ const Auth = () => {
     setVariant((currentVariant) =>
       currentVariant === 'login' ? 'register' : 'login'
     );
+    setCredentials(initialCredentialsState);
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -34,18 +38,35 @@ const Auth = () => {
     });
   };
 
-  const register = useCallback(async () => {
+  const login = useCallback(async () => {
     try {
-      await axios.post('/api/register', credentials);
+      await signIn('credentials', {
+        email: credentials.email,
+        password: credentials.password,
+        redirect: false,
+        callbackUrl: '/',
+      });
+
+      router.push('/');
     } catch (error) {
       console.log(error);
     }
-  }, [credentials]);
+  }, [router, credentials.email, credentials.password]);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post('/api/register', credentials);
+      await login();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [login, credentials]);
 
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     if (variant === 'login') {
       console.log('login', { credentials });
+      login();
     } else {
       console.log('register', { credentials });
       register();
