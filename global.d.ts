@@ -6,3 +6,5 @@ declare global {
     var prismadb: PrismaClient;
   }
 }
+
+export {};

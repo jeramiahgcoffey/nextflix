@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import Input from '@/components/inputs/Input';
 import { useCallback, useState } from 'react';
 
@@ -32,12 +34,21 @@ const Auth = () => {
     });
   };
 
+  const register = useCallback(async () => {
+    try {
+      await axios.post('/api/register', credentials);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [credentials]);
+
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     if (variant === 'login') {
       console.log('login', { credentials });
     } else {
       console.log('register', { credentials });
+      register();
     }
     setCredentials(initialCredentialsState);
   };
