@@ -1,6 +1,6 @@
 import Billboard from '@/components/layout/Billboard';
 import MovieList from '@/components/layout/MovieList';
-import Navbar from '@/components/layout/Navbar';
+import Navbar from '@/components/layout/navbar/Navbar';
 import useMovieList from '@/hooks/useMovieList';
 import { NextPageContext } from 'next';
 import { getSession } from 'next-auth/react';
