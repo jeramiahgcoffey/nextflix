@@ -1,3 +1,4 @@
+import useCurrentUser from '@/hooks/useCurrentUser';
 import { signOut } from 'next-auth/react';
 
 interface IAccountMenuProps {
@@ -5,6 +6,8 @@ interface IAccountMenuProps {
 }
 
 const AccountMenu = ({ visible }: IAccountMenuProps) => {
+  const { data: user } = useCurrentUser();
+
   if (!visible) return null;
 
   return (
@@ -17,7 +20,7 @@ const AccountMenu = ({ visible }: IAccountMenuProps) => {
             className="w-8 rounded-md"
           />
           <p className="text-white text-sm group-hover/item:underline">
-            Username
+            {user?.name}
           </p>
         </div>
         <hr className="bg-gray-600 border-0 h-px my-4" />
