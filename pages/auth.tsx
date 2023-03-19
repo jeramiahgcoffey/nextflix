@@ -63,10 +63,8 @@ const Auth = () => {
   const handleSubmit = (e: React.FormEvent<HTMLButtonElement>): void => {
     e.preventDefault();
     if (variant === 'login') {
-      console.log('login', { credentials });
       login();
     } else {
-      console.log('register', { credentials });
       register();
     }
     setCredentials(initialCredentialsState);
