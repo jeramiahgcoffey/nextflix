@@ -101,6 +101,7 @@ const Auth = () => {
                 <Input
                   id="password"
                   label="Password"
+                  type='password'
                   value={credentials.password}
                   onChange={handleInputChange}
                 />
