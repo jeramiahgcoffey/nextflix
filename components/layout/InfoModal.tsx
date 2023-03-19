@@ -27,7 +27,7 @@ const InfoModal = ({visible, onClose}: IInfoModalProps) => {
     }, 300)
   }
 
-  if (!isVisible) return false;
+  if (!isVisible) return null;
 
   return <div className="z-50 transition duration-300 bg-black bg-opacity-80 flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0">
     <div className="relative w-auto mx-auto max-w-3xl rounded-md overflow-hidden">
